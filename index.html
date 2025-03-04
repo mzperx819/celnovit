@@ -1,7 +1,145 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Magic Link Login</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background: #fafafa;
+    }
+    .header {
+      text-align: center;
+      padding: 20px;
+      background: #f2f2f2;
+    }
+    .login-btn {
+      padding: 10px 20px;
+      font-size: 16px;
+      cursor: pointer;
+      background: #4285f4;
+      color: white;
+      border: none;
+      border-radius: 4px;
+    }
+    /* Modal Styles */
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 1;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      overflow: auto;
+      background-color: rgba(0, 0, 0, 0.4);
+    }
+    .modal-content {
+      background: #fff;
+      margin: 15% auto;
+      padding: 20px;
+      border: 1px solid #888;
+      width: 80%;
+      max-width: 400px;
+      border-radius: 5px;
+      text-align: center;
+    }
+    .close {
+      color: #aaa;
+      float: right;
+      font-size: 28px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    .close:hover {
+      color: #000;
+    }
+    input[type="email"] {
+      width: 90%;
+      padding: 8px;
+      margin-top: 10px;
+      margin-bottom: 20px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+    button.submit-btn {
+      padding: 10px 20px;
+      font-size: 14px;
+      cursor: pointer;
+      background: #34a853;
+      color: white;
+      border: none;
+      border-radius: 4px;
+    }
+    .message-box {
+      margin-top: 20px;
+      padding: 10px;
+      background: #e0ffe0;
+      border: 1px solid #a0d0a0;
+      display: none;
+      border-radius: 4px;
+    }
+  </style>
+</head>
 <body>
-<h1>Hello World</h1>
-<p>I'm hosted with GitHub Pages.</p>
+  <div class="header">
+    <h1>Welcome to Our Service</h1>
+    <button id="loginBtn" class="login-btn">Login</button>
+  </div>
+
+  <!-- Modal -->
+  <div id="loginModal" class="modal">
+    <div class="modal-content">
+      <span class="close" id="modalClose">&times;</span>
+      <h2>Login</h2>
+      <form id="loginForm">
+        <label for="email">Enter your email:</label><br>
+        <input type="email" id="email" name="email" required placeholder="your.email@example.com" /><br>
+        <button type="submit" class="submit-btn">Submit</button>
+      </form>
+      <div id="messageBox" class="message-box">
+        If the email is registered with us, a magic link will be sent to your email address.
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Get modal and related elements
+    const modal = document.getElementById("loginModal");
+    const loginBtn = document.getElementById("loginBtn");
+    const closeModal = document.getElementById("modalClose");
+    const loginForm = document.getElementById("loginForm");
+    const messageBox = document.getElementById("messageBox");
+
+    // Open modal on button click
+    loginBtn.addEventListener("click", () => {
+      modal.style.display = "block";
+      messageBox.style.display = "none";
+      loginForm.reset();
+    });
+
+    // Close modal when clicking on the close button
+    closeModal.addEventListener("click", () => {
+      modal.style.display = "none";
+    });
+
+    // Close modal if clicking outside the modal content
+    window.addEventListener("click", (event) => {
+      if (event.target === modal) {
+        modal.style.display = "none";
+      }
+    });
+
+    // Handle form submission
+    loginForm.addEventListener("submit", (event) => {
+      event.preventDefault();
+      // At this stage, we simply show the message.
+      // In a production scenario, you would add an API call here to check the email.
+      messageBox.style.display = "block";
+    });
+  </script>
 </body>
 </html>
