@@ -1,145 +1,254 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Magic Link Login</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Secure Client Access Portal</title>
   <style>
-    body {
-      font-family: Arial, sans-serif;
+    /* Use a modern, clean font pairing: Poppins for headings, Inter for body */
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500&family=Poppins:wght@600&display=swap');
+
+    :root {
+      /* Color palette */
+      --deep-burgundy: #800020;
+      --navy-blue: #000080;
+      --gold: #DAA520;
+      --light-gray: #F5F5F5;
+      --dark-gray: #666666;
+      --white: #FFFFFF;
+      --bg: #FAFAFA;
+    }
+
+    * {
       margin: 0;
       padding: 0;
-      background: #fafafa;
+      box-sizing: border-box;
     }
-    .header {
-      text-align: center;
-      padding: 20px;
-      background: #f2f2f2;
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: var(--bg);
+      color: #333;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
     }
-    .login-btn {
-      padding: 10px 20px;
-      font-size: 16px;
-      cursor: pointer;
-      background: #4285f4;
-      color: white;
-      border: none;
-      border-radius: 4px;
+
+    header {
+      background-color: var(--light-gray);
+      padding: 1rem 2rem;
+      display: flex;
+      align-items: center;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     }
-    /* Modal Styles */
-    .modal {
-      display: none;
-      position: fixed;
-      z-index: 1;
-      left: 0;
-      top: 0;
+
+    header .phone {
+      color: var(--dark-gray);
+      font-size: 1rem;
+    }
+
+    header .phone::before {
+      content: "\260E "; /* phone icon */
+      margin-right: 0.5rem;
+    }
+
+    main {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Modern Hero Section */
+    .hero {
+      position: relative;
       width: 100%;
-      height: 100%;
-      overflow: auto;
-      background-color: rgba(0, 0, 0, 0.4);
+      min-height: 60vh;
+      background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)),
+                  url('path-to-image.jpg') center/cover no-repeat;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 2rem;
+      color: var(--white);
     }
-    .modal-content {
-      background: #fff;
-      margin: 15% auto;
-      padding: 20px;
-      border: 1px solid #888;
-      width: 80%;
-      max-width: 400px;
-      border-radius: 5px;
+
+    .hero h1 {
+      font-family: 'Poppins', sans-serif;
+      font-size: 2.5rem;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+      text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.6);
+    }
+
+    .hero p {
+      font-size: 1.2rem;
+      margin-bottom: 2rem;
+      text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+    }
+
+    .hero form {
+      display: flex;
+      flex-direction: row;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin-bottom: 1rem;
+    }
+
+    .hero input[type=email] {
+      padding: 0.75rem 1rem;
+      border: 2px solid var(--gold);
+      border-radius: 8px;
+      font-size: 1rem;
+      width: 300px;
+      max-width: 90%;
+      text-align: center;
+      outline: none;
+    }
+
+    .hero button {
+      background-color: var(--gold);
+      border: none;
+      border-radius: 8px;
+      color: var(--white);
+      font-size: 1rem;
+      padding: 0.75rem 1.5rem;
+      cursor: pointer;
+      transition: background-color 0.3s;
+      font-weight: 500;
+    }
+
+    .hero button:hover {
+      background-color: #B8860B;
+    }
+
+    .security-note {
+      font-style: italic;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.9rem;
+    }
+
+    .security-note::before {
+      content: "\1F512"; /* lock icon */
+      margin-right: 0.3rem;
+    }
+
+    .info-section {
+      margin: 2rem auto;
+      padding: 2rem;
+      background-color: var(--white);
+      max-width: 900px;
+      border-radius: 10px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
       text-align: center;
     }
-    .close {
-      color: #aaa;
-      float: right;
-      font-size: 28px;
-      font-weight: bold;
-      cursor: pointer;
+
+    .info-section h2 {
+      font-family: 'Poppins', sans-serif;
+      font-size: 2rem;
+      color: var(--deep-burgundy);
+      margin-bottom: 1rem;
+      font-weight: 600;
     }
-    .close:hover {
-      color: #000;
+
+    .info-section p {
+      font-size: 1rem;
+      color: var(--dark-gray);
+      margin-bottom: 1.2rem;
+      line-height: 1.6;
     }
-    input[type="email"] {
-      width: 90%;
-      padding: 8px;
-      margin-top: 10px;
-      margin-bottom: 20px;
-      border: 1px solid #ccc;
-      border-radius: 4px;
+
+    .info-section a {
+      color: var(--navy-blue);
+      text-decoration: underline;
+      font-weight: 500;
     }
-    button.submit-btn {
-      padding: 10px 20px;
-      font-size: 14px;
-      cursor: pointer;
-      background: #34a853;
-      color: white;
-      border: none;
-      border-radius: 4px;
+
+    footer {
+      background-color: var(--light-gray);
+      padding: 1rem 2rem;
+      text-align: center;
+      box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
+      font-size: 0.9rem;
+      color: var(--dark-gray);
     }
-    .message-box {
-      margin-top: 20px;
-      padding: 10px;
-      background: #e0ffe0;
-      border: 1px solid #a0d0a0;
-      display: none;
-      border-radius: 4px;
+
+    footer .contact {
+      display: inline-block;
     }
+
+    footer .contact::before {
+      content: "\260E "; /* phone icon */
+      margin-right: 0.5rem;
+    }
+
+    @media (max-width: 600px) {
+      .hero h1 {
+        font-size: 1.8rem;
+      }
+
+      .hero p {
+        font-size: 1rem;
+      }
+
+      .hero form {
+        flex-direction: column;
+        gap: 0.75rem;
+      }
+
+      .info-section h2 {
+        font-size: 1.6rem;
+      }
+    }
+
   </style>
 </head>
 <body>
-  <div class="header">
-    <h1>Welcome to Our Service</h1>
-    <button id="loginBtn" class="login-btn">Login</button>
-  </div>
 
-  <!-- Modal -->
-  <div id="loginModal" class="modal">
-    <div class="modal-content">
-      <span class="close" id="modalClose">&times;</span>
-      <h2>Login</h2>
-      <form id="loginForm">
-        <label for="email">Enter your email:</label><br>
-        <input type="email" id="email" name="email" required placeholder="your.email@example.com" /><br>
-        <button type="submit" class="submit-btn">Submit</button>
+  <header>
+    <span class="phone">+44 1234 567890</span>
+  </header>
+
+  <main>
+    <!-- HERO SECTION -->
+    <section class="hero">
+      <h1>Secure Client Access Portal</h1>
+      <p>Dedicated to Our Valued Business Partners</p>
+      <form action="#" method="POST">
+        <input type="email" placeholder="Enter Your Authorized Email Address" required>
+        <button type="submit">Request Access</button>
       </form>
-      <div id="messageBox" class="message-box">
-        If the email is registered with us, a magic link will be sent to your email address.
-      </div>
-    </div>
-  </div>
+      <div class="security-note">Exclusive Access via Authorized Email Links</div>
+    </section>
 
-  <script>
-    // Get modal and related elements
-    const modal = document.getElementById("loginModal");
-    const loginBtn = document.getElementById("loginBtn");
-    const closeModal = document.getElementById("modalClose");
-    const loginForm = document.getElementById("loginForm");
-    const messageBox = document.getElementById("messageBox");
+    <!-- INFO SECTION -->
+    <section class="info-section">
+      <h2>Why This Portal?</h2>
+      <p>
+        This portal is designed exclusively for our business partners and clients across various industries,
+        including museums, film and television studios, and luxury brands, who engage in our specialized
+        services of 18th-century design revival and antique textile restoration.
+      </p>
+      <p>
+        To ensure the highest level of security and confidentiality, access is granted through a secure,
+        multi-factor authentication process. Authorized users receive unique, time-limited access links
+        sent directly to their verified email addresses, enhancing the confidentiality and integrity of
+        your projects.
+      </p>
+      <p>
+        If you are not a client but are interested in our services, please contact us directly at
+        <a href="tel:+441234567890">+44 1234 567890</a>.
+      </p>
+    </section>
+  </main>
 
-    // Open modal on button click
-    loginBtn.addEventListener("click", () => {
-      modal.style.display = "block";
-      messageBox.style.display = "none";
-      loginForm.reset();
-    });
+  <footer>
+    <span class="contact">+44 1234 567890</span>
+  </footer>
 
-    // Close modal when clicking on the close button
-    closeModal.addEventListener("click", () => {
-      modal.style.display = "none";
-    });
-
-    // Close modal if clicking outside the modal content
-    window.addEventListener("click", (event) => {
-      if (event.target === modal) {
-        modal.style.display = "none";
-      }
-    });
-
-    // Handle form submission
-    loginForm.addEventListener("submit", (event) => {
-      event.preventDefault();
-      // At this stage, we simply show the message.
-      // In a production scenario, you would add an API call here to check the email.
-      messageBox.style.display = "block";
-    });
-  </script>
 </body>
 </html>
